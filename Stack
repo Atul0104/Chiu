@@ -1,0 +1,97 @@
+//Imagine you are building a modern web browser. You need to implement the "back" and "forward" functionality. The user should be able to navigate through a history of visited web pages. When they click the "back" button, they go to the previous page. When they click "forward," they return to a page they just "backed" away from. 
+//The system must handle the following scenarios:
+//- Visiting a New Page: When a user types a new URL or clicks a link, the current page is added to the history, and the "forward" history is cleared.
+//- Using the "Back" Button: This action should take the user to the most recently visited page in their history.
+//- Using the "Forward" Button: This should only work after a user has gone back. It should take them to the page they just came from.
+//- No History: The "back" and "forward" buttons should be disabled or provide a message when there's no history to navigate to.
+//Use two stacks to model this behavior: one for the "back" history and one for the "forward" history... Implement this program as an ADT.. create 2 file 1 for stack.h and other 2. main.cpp file.. 
+
+
+
+
+
+
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
+int main() {
+    Stack back, forward;
+    string page = "Home";
+    int ch;
+
+    do {
+        cout << "\nCurrent Page: " << page;
+        cout << "\n1.Visit Page";
+        cout << "\n2.Back";
+        cout << "\n3.Forward";
+        cout << "\n4.Exit";
+        cout << "\nEnter choice: ";
+
+        cin >> ch;
+
+        if(ch == 1) {
+            back.push(page);
+
+            cout << "Enter URL: ";
+            cin >> page;
+
+            forward.clear();
+        }
+
+        else if(ch == 2) {
+            if(back.empty())
+                cout << "No Back History";
+            else {
+                forward.push(page);
+                page = back.pop();
+            }
+        }
+
+        else if(ch == 3) {
+            if(forward.empty())
+                cout << "No Forward History";
+            else {
+                back.push(page);
+                page = forward.pop();
+            }
+        }
+
+        else if(ch == 4)
+            cout << "Exit";
+
+        else
+            cout << "Invalid Choice";
+
+    } while(ch != 4);
+
+    return 0;
+}
+
+
+
+
+
+#include <iostream>
+using namespace std;
+class Stack {
+public:
+    string a[50];
+    int top = -1;
+    void push(string x) {
+        if(top < 49)
+            a[++top] = x;
+    }
+    string pop() {
+        if(top == -1)
+            return "";
+
+        return a[top--];
+    }
+    bool empty() {
+        return top == -1;
+    }
+    void clear() {
+        top = -1;
+    }
+};
